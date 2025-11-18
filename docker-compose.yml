@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  kafka:
+    image: confluentinc/cp-kafka:7.8.3
+    container_name: kafka-new
+    ports:
+      - "9092:9094"  # Expose PLAINTEXT_HOST listener on host port 9092
+    environment:
+      KAFKA_KRAFT_MODE: 'true'
+      CLUSTER_ID: '1L6g7nGhU-eAKfL--X25wo'
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-new:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,PLAINTEXT_HOST://0.0.0.0:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-new:9092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+    volumes:
+      - kafka_kraft:/var/lib/kafka/data
+    networks:
+      - kafka-net
+
+  kafka-producer:
+    build: ./kafka-producer
+    container_name: kafka-producer
+    depends_on:
+      - kafka
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - kafka-net
+    
+
+volumes:
+  kafka_kraft:
+
+networks:
+  kafka-net:
+    driver: bridge
