@@ -80,7 +80,7 @@ def stream_and_produce():
                         user_id = event.get("user_id", "")
                         producer.produce(
                             topic=topic_name,  # 🔹 nom du topic Kafka
-                            key=str(user_id),
+                            key=str(user_id).encode("utf-8"),
                             value=json.dumps(event).encode("utf-8"),
                             callback=delivery_report
                         )
