@@ -7,11 +7,10 @@ import json
 # allow importing create_topic from project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-
 # Configuration du producteur Kafka
 producer_config = {
     "bootstrap.servers": "kafka-new:9092"  # ⚠️ utilise 'kafka-new' car c'est le nom du conteneur Docker
-    , "client.id": "event-producer-1"
+    , "client.id": "event-producer-2"
 }
 producer = Producer(producer_config)
 
@@ -41,8 +40,8 @@ def delivery_report(err, msg):
                 parsed = {}
 
         # common field names for id/user (support multiple formats)
-        event_id = parsed.get("evt_id") or parsed.get("event_id") or parsed.get("id") or parsed.get("eventId") or ""
-        user_id = parsed.get("uid") or parsed.get("user_id") or parsed.get("userId") or ""
+        event_id = parsed.get("id_evenement") or parsed.get("evt_id") or parsed.get("event_id") or parsed.get("id") or ""
+        user_id = parsed.get("identifiant_utilisateur") or parsed.get("uid") or parsed.get("user_id") or ""
     except Exception:
         # fallback to the message key if parsing fails
         try:
@@ -57,7 +56,7 @@ def delivery_report(err, msg):
 
 # Fonction principale
 def stream_and_produce():
-    url = "http://host.docker.internal:8080/events/stream" # ⚠️ utilise 'host.docker.internal' pour accéder à l'hôte depuis Docker
+    url = "http://host.docker.internal:8081/events/stream" # ⚠️ utilise 'host.docker.internal' pour accéder à l'hôte depuis Docker
     print(f"🚀 Connexion à {url} ...")
 
     

@@ -24,11 +24,40 @@ services:
     networks:
       - kafka-net
 
+  kafka-init:
+    image: confluentinc/cp-kafka:7.8.3
+    container_name: kafka-init
+    depends_on:
+      - kafka
+    networks:
+      - kafka-net
+    command: >
+      bash -c "
+        echo '🔄 Waiting for Kafka to be ready...' &&
+        cub kafka-ready -b kafka-new:9092 1 30 &&
+        echo '✅ Kafka is ready' &&
+        kafka-topics --bootstrap-server kafka-new:9092 --create --if-not-exists --topic data.stream.raw --partitions 6 --replication-factor 1 &&
+        echo '✅ Topic data.stream.raw created/verified'
+      "
+    restart: "no"
+
   kafka-producer:
     build: ./kafka-producer
     container_name: kafka-producer
     depends_on:
-      - kafka
+      kafka-init:
+        condition: service_completed_successfully
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - kafka-net
+  
+  kafka-producer2:
+    build: ./kafka-producer2
+    container_name: kafka-producer2
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:
