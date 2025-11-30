@@ -9,7 +9,7 @@ Also runnable as a script to create/check a topic.
 """
 from confluent_kafka.admin import AdminClient, NewTopic
 
-# hdchy kaml t9ed diro b cammande dyl kafka (kafka-topics.sh --create --topic ... )
+# hdchy kaml t9ed diro b cammande dyl kafka (kafka-topics --create --topic ... )
 def ensure_topic(topic_name: str,
                  num_partitions: int = 6,
                  replication_factor: int = 1,

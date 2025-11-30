@@ -1,0 +1,109 @@
+{
+  "type": "record",
+  "name": "NormalizedEvent",
+  "namespace": "com.datastreaming.events",
+  "doc": "Schéma normalisé pour les événements provenant de producteurs hétérogènes",
+  "fields": [
+    {
+      "name": "event_id",
+      "type": "string",
+      "doc": "Identifiant unique de l'événement"
+    },
+    {
+      "name": "timestamp",
+      "type": "string",
+      "doc": "Horodatage de l'événement au format ISO 8601"
+    },
+    {
+      "name": "user_id",
+      "type": "string",
+      "doc": "Identifiant utilisateur"
+    },
+    {
+      "name": "ip_address",
+      "type": "string",
+      "doc": "Adresse IP source"
+    },
+    {
+      "name": "country_code",
+      "type": "string",
+      "doc": "Code pays"
+    },
+    {
+      "name": "device_type",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Type d'appareil"
+    },
+    {
+      "name": "operating_system",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Système d'exploitation"
+    },
+    {
+      "name": "event_type",
+      "type": "string",
+      "doc": "Type d'événement"
+    },
+    {
+      "name": "session_id",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Identifiant de session"
+    },
+    {
+      "name": "latitude",
+      "type": ["null", "double"],
+      "default": null,
+      "doc": "Latitude"
+    },
+    {
+      "name": "longitude",
+      "type": ["null", "double"],
+      "default": null,
+      "doc": "Longitude"
+    },
+    {
+      "name": "request_latency_ms",
+      "type": ["null", "int"],
+      "default": null,
+      "doc": "Latence de la requête en ms"
+    },
+    {
+      "name": "auth_method",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Méthode d'authentification"
+    },
+    {
+      "name": "account_age_days",
+      "type": ["null", "int"],
+      "default": null,
+      "doc": "Âge du compte en jours"
+    },
+    {
+      "name": "uses_vpn",
+      "type": ["null", "boolean"],
+      "default": null,
+      "doc": "Indique si VPN utilisé"
+    },
+    {
+      "name": "device_fingerprint",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Empreinte unique de l'appareil"
+    },
+    {
+      "name": "source_producer",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Producteur source"
+    },
+    {
+      "name": "normalization_timestamp",
+      "type": "long",
+      "doc": "Timestamp Unix en millisecondes lors de la normalisation"
+    }
+  ]
+}

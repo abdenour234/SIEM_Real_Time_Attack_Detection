@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # Configuration du producteur Kafka
 producer_config = {
-    "bootstrap.servers": "kafka-new:9092"  # ⚠️ utilise 'kafka-new' car c'est le nom du conteneur Docker
+    "bootstrap.servers": "kafka:9092"
     , "client.id": "event-producer-2"
 }
 producer = Producer(producer_config)
